@@ -1,4 +1,4 @@
-package lista;
+package listasencadeadas;
 
 public class Time {
     private String nome;
