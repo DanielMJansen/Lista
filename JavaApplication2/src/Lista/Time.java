@@ -1,8 +1,17 @@
-package listasencadeadas;
+package Lista;
 
 public class Time {
     private String nome;
     private int estrela;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     private Time next = null;
     public Time(){
         
