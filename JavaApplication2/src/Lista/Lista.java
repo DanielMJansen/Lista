@@ -7,8 +7,8 @@ public class Lista {
     /**
      * Autor: Nicolas Cunha
      * <p>
-     * Fazer um programa para a realização das seguintes
-     * operações com uma lista encadeada simples não circular:
+     * Fazer um programa para a realização das seguintes operações com uma lista
+     * encadeada simples não circular:
      * <p>
      * - incluir um objeto no início na lista
      * <p>
@@ -26,15 +26,15 @@ public class Lista {
      * <p>
      * - mostrar todos os objetos da lista na ordem do último para o primeiro
      */
-
     static Time inicio = null;
     static Time fim = null;
     static int contCelulas = 0;
 
     public static Time iniciaTimes() {
         Time t = new Time();
-        t.setEstrela(pedeInt("Informe a id do personagem, de 1 a 10000:", 1, 10000));
-        t.setNome(pedeStr("Informe o nome do personagem, de 1 a 100 caracteres: ", 1, 100));
+        t.setNome(pedeStr("Informe o nome do time, de 1 a 100 caracteres: ", 1, 100));
+        t.setId(pedeInt("Informe o ID do time, de 1 a 100:",1, 100));
+        t.setEstrela(pedeInt("Informe o numero de estrelas do time, de 1 a 5:", 1, 5));
         return t;
     }
 
@@ -71,11 +71,11 @@ public class Lista {
     public static void verificaExiste() {
         boolean exist = false;
         Time atual;
-        switch (pedeInt("1 - Procurar por ID \n 2 - Procurar por nome", 1, 2)) {
+        switch (pedeInt("1 - Procurar por estrela \n 2 - Procurar por nome \n 3 - Procurar por ID", 1,3)) {
             case 1:
-                int estrela = pedeInt("Informe a id do personagem, de 1 a 10000:", 1, 10000);
+                int estrela = pedeInt("Informe a nivelacao do time, de 1 a 5:", 1, 5);
                 atual = inicio;
-                while(atual != null){
+                while (atual != null) {
                     if (atual.getEstrela() == estrela) {
                         exist = true;
                         break;
@@ -84,9 +84,9 @@ public class Lista {
                 }
                 break;
             case 2:
-                String nome = pedeStr("Informe o nome do personagem, de 1 a 100 caracteres: ", 1, 100);
+                String nome = pedeStr("Informe o nome do time, de 1 a 100 caracteres: ", 1, 100);
                 atual = inicio;
-                while(atual != null){
+                while (atual != null) {
                     if (atual.getNome().equals(nome)) {
                         exist = true;
                         break;
@@ -94,20 +94,29 @@ public class Lista {
                     atual = atual.getNext();
                 }
                 break;
+            case 3:
+                int id = pedeInt("Informe o ID do time, de 1 a 100:", 1, 100);
+                atual = inicio;
+                while(atual != null){
+                    if (atual.getId() == id){
+                        exist = true;
+                        break;
+                    }
+                    atual = atual.getNext();
+                }
         }
-        if(exist) {
+        if (exist) {
             System.out.println("Existe!");
-        }else{
+        } else {
             System.out.println("Não existe!");
         }
     }
 
-
-    public static Time buscarAnterior(Time t){
+    public static Time buscarAnterior(Time t) {
         Time ret = null;
         Time atual = inicio;
-        while(atual != null){
-            if(atual.getNext() == t){
+        while (atual != null) {
+            if (atual.getNext() == t) {
                 ret = atual;
                 break;
             }
@@ -116,21 +125,19 @@ public class Lista {
         return ret;
     }
 
-
-
     public static void removeEspecifico() {
         Time atual;
         switch (pedeInt("1 - Remover por ID \n 2 - Remover por nome", 1, 2)) {
             case 1:
-                int estrela = pedeInt("Informe a id do personagem, de 1 a 10000:", 1, 10000);
-                if(estrela == inicio.getEstrela()){
+                int id = pedeInt("Informe o id do time, de 1 a 100:", 1, 100);
+                if (id == inicio.getId()) {
                     removeInicio();
-                }else if(estrela == fim.getEstrela()){
+                } else if (id == fim.getId()) {
                     removeFim();
-                }else{
+                } else {
                     atual = inicio;
-                    while(atual != null){
-                        if (atual.getEstrela() == estrela) {
+                    while (atual != null) {
+                        if (atual.getId() == id) {
                             //ligar o anterior ao próximo de atual
                             Time anterior = buscarAnterior(atual);
                             anterior.setNext(atual.getNext());
@@ -143,14 +150,14 @@ public class Lista {
                 }
                 break;
             case 2:
-                String nome = pedeStr("Informe o nome do personagem, de 1 a 100 caracteres: ", 1, 100);
-                if(nome.equals(inicio.getNome())){
+                String nome = pedeStr("Informe o nome do time, de 1 a 100 caracteres: ", 1, 100);
+                if (nome.equals(inicio.getNome())) {
                     removeInicio();
-                }else if(nome.equals(fim.getNome())){
+                } else if (nome.equals(fim.getNome())) {
                     removeFim();
-                }else{
+                } else {
                     atual = inicio;
-                    while(atual != null){
+                    while (atual != null) {
                         if (atual.getNome().equals(nome)) {
                             //ligar o anterior ao próximo de atual
                             Time anterior = buscarAnterior(atual);
@@ -167,24 +174,24 @@ public class Lista {
     }
 
     public static void removeInicio() {
-        if(listaVazia()){
+        if (listaVazia()) {
             System.out.println("Lista vazia.");
-        }else{
+        } else {
             inicio = inicio.getNext();
         }
     }
 
     public static void removeFim() {
-        if(listaVazia()){
+        if (listaVazia()) {
             System.out.println("Lista vazia.");
-        }else{
-            if(inicio == fim){
+        } else {
+            if (inicio == fim) {
                 inicio = null;
                 fim = null;
-            }else{
+            } else {
                 Time atual = inicio;
-                while(atual != null){
-                    if(atual.getNext().getNext() == null){
+                while (atual != null) {
+                    if (atual.getNext().getNext() == null) {
                         atual.setNext(null);
                         fim = atual;
                         break;
@@ -197,27 +204,27 @@ public class Lista {
     }
 
     public static void listaInicioFim() {
-        if(listaVazia()){
+        if (listaVazia()) {
             System.out.println("Lista vazia.");
-        }else{
+        } else {
             Time atual = inicio;
-            while(atual != null){
-                System.out.println(atual.getEstrela() + " - " + atual.getNome());
+            while (atual != null) {
+                System.out.println("ID" + " - " + atual.getId() + " - "+ "Time:" +atual.getNome() + "Nível:" + atual.getEstrela());
                 atual = atual.getNext();
             }
         }
     }
 
     public static void listaFimInicio() {
-        if(listaVazia()){
+        if (listaVazia()) {
             System.out.println("Lista vazia: ");
-        }else{
+        } else {
             Time atual = fim;
-            while(atual != null){
-                System.out.println(atual.getEstrela() + " - "+atual.getNome());
-                if(atual != inicio){
+            while (atual != null) {
+                System.out.println("ID" + " - " + atual.getId() + " - "+ "Time:"+ atual.getNome() + "Nível:" + atual.getEstrela());
+                if (atual != inicio) {
                     atual = buscarAnterior(atual);
-                }else{
+                } else {
                     atual = null;
                 }
             }
@@ -237,8 +244,9 @@ public class Lista {
             try {
                 System.out.println(msg);
                 ret = scan.nextInt();
-                if (ret < min || ret > max)
+                if (ret < min || ret > max) {
                     System.out.println("Você deve informar um valor de " + min + " a " + max + ".");
+                }
             } catch (Exception e) {
                 erro = true;
             }
@@ -255,8 +263,9 @@ public class Lista {
             try {
                 System.out.println(msg);
                 ret = scan.next();
-                if (ret.length() < min || ret.length() > max)
+                if (ret.length() < min || ret.length() > max) {
                     System.out.println("Você deve informar um literal de " + min + " caracteres a " + max + " caracteres.");
+                }
             } catch (Exception e) {
                 erro = true;
             }
@@ -321,4 +330,3 @@ public class Lista {
     }
 
 }
-
